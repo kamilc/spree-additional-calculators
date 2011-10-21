@@ -1,6 +1,6 @@
 <%= render "shared/error_messages", :target => @calculator %>
 <h1><%= t("additional_calculator_rates") %></h1>
-<h2><%=h "#{@calculator.name} (#{@calculator.description})" %></h2>
+<h2><%=h "#{@calculator.name} #{@calculator.zone} (#{@calculator.description})" %></h2>
 
 <%= form_for(@calculator, :url => admin_additional_calculator_rate_path, :html => { :method => :put}) do |f| %>
 
