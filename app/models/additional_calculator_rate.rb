@@ -14,10 +14,6 @@ class AdditionalCalculatorRate < ActiveRecord::Base
   validates :from_value, :to_value, :rate, :numericality => true, :allow_blank => true
   validate :validate_from_value_smaller_than_to_value
 
-  def zone
-    calculable.zone rescue ""
-  end
-
   def validate_from_value_smaller_than_to_value
     # ignore following cases
     return if from_value.nil? || to_value.nil?

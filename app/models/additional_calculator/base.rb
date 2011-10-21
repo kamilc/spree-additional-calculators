@@ -20,6 +20,11 @@ class AdditionalCalculator::Base < Calculator
     calculable.respond_to?(:name) ? calculable.name : calculable.to_s
   end
 
+  # The calculator zone
+  def zone
+    calculable.respond_to?(:zone) ? calculable.zone : ""
+  end
+
   # supported types for the specified calculator (weight, qnty, ...)
   # all the types are supported by default
   def supported_types
