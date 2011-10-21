@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th><%= t("shipping_method")%></th>
+      <th><%= t("zone")%></th>
       <th><%= t("calculator")%></th>
       <th><%= t("action")%></th>
     </tr>
@@ -12,6 +13,7 @@
     <% @calculators.each do |calculator| %>
       <tr>
         <td><%= calculator.name %></td>
+	<td><%= calculator.calculable.zone rescue "" %></td>
         <td><%= calculator.description %></td>
         <td><%= link_to_with_icon('edit', t("edit"), edit_admin_additional_calculator_rate_path(calculator)) %></td>
       </tr>
