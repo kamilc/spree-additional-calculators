@@ -3,22 +3,14 @@ require 'spree_core'
 module SpreeAdditionalCalculators
   class Engine < Rails::Engine
 
-    config.autoload_paths += %W(#{config.root}/lib)
-
     def self.activate
       Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")) do |c|
         Rails.env.production? ? require(c) : load(c)
       end
-
-      #register all calculators
-      [
-        AdditionalCalculator::WeightAndQuantity
-      ].each do |c_model|
-        begin
-          c_model.register if c_model.table_exists?
-        rescue Exception => e
-          $stderr.puts "Error registering calculator #{c_model}"
-        end
+      initializer "spree_additional_calculators.register.calculators" do |app|
+        app.config.spree.calculators.shipping_methods = [
+          AdditionalCalculator::WeightAndQuantity
+        ]
       end
     end
 
