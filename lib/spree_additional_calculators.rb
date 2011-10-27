@@ -1,5 +1,4 @@
 require 'spree_core'
-require 'spree_additional_calculators_hooks'
 
 module SpreeAdditionalCalculators
   class Engine < Rails::Engine
