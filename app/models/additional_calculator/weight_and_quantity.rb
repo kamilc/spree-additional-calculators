@@ -2,6 +2,8 @@ class AdditionalCalculator::WeightAndQuantity < AdditionalCalculator::Base
   # if weight is not defined for an item, use this instead
   preference :default_item_weight, :decimal, :default => 0
 
+  preference :additional_kilo_cost, :decimal, :default => 1
+
   # The description of the calculator
   def self.description
     I18n.t('calculator_names.weight_and_quantity')
@@ -15,6 +17,18 @@ class AdditionalCalculator::WeightAndQuantity < AdditionalCalculator::Base
     total_qnty = get_total_qnty(line_items)
     total_weight = get_total_weight(line_items)
     weight_rate = get_rate(total_weight, AdditionalCalculatorRate::WEIGHT)
+
+    # if weight_rate.nil? then we have total_weight exceeding out rates.
+    # so we get max rate's value and for every kilo exceeding we apply 
+    # "additional_kilo_cost"
+
+    if weight_rate.nil?
+      rate = AdditionalCalculatorRate.for_calculator(self.id).for_type(AdditionalCalculatorRate::WEIGHT).order("to_value DESC").first()
+      unless rate.nil?
+        additional_kilos = total_weight - rate.to_value
+        weight_rate = rate.rate + (additional_kilos * self.preferred_additional_kilo_cost)
+      end
+    end
 
     # sometimes the compute method is called without checking if the calculator is available
     if weight_rate.nil?

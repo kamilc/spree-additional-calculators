@@ -10,10 +10,11 @@ class AdditionalCalculator::Base < Calculator
   before_save :set_is_additional_calculator
 
   # Register the calculator
-  def self.register
-    super
-    ShippingMethod.register_calculator(self)
-  end
+  # def self.register
+  #   super
+  #   # binding.pry
+  #   # ShippingMethod.register_calculator(self)
+  # end
 
   # Return calculator name
   def name
